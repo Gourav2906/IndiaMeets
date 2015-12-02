@@ -126,7 +126,7 @@ public class login extends Activity {
                         //  setResult(RESULT_OK,intent);
                        // finish();
                         //Toast.makeText(LoginActivity.this,"Login Successful",Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(login.this, Main2Activity.class);
+                        Intent intent = new Intent(login.this, MainActivity.class);
                         intent.putExtra("token", loginToken);
                         startActivity(intent);
 

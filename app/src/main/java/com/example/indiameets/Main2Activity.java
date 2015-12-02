@@ -73,17 +73,22 @@ public class Main2Activity extends AppCompatActivity
         rv.setAdapter(rvAdapter);
         Intent i=getIntent();
         String location = i.getStringExtra("location");
-
+        SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS", MODE_PRIVATE).edit();
+        if (i.hasExtra("location")) {
+            editor.putString(getString(R.string.location), location);
+            editor.commit();
+        }
         HashMap<String, String> params = new HashMap<String, String>();
         Intent  iq = new Intent(Main2Activity.this, Template.class);
         String name = iq.getStringExtra("token");
         iq.putExtra("token",name);
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-       String url = "http://192.168.42.218:3000/api/displayevents";
+       String url = "http://192.168.42.218:3000/api/locate";
 //        String url="http://api.football-data.org/alpha/soccerseasons/398/teams";
-        JsonArrayRequest req = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
-      //  params.put("location","Delhi");
-       // JsonArrayRequest req = new JsonArrayRequest(Request.Method.POST,url, new JSONObject(params),new Response.Listener<JSONArray>() {
+    //    JsonArrayRequest req = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+        SharedPreferences sharedPref = getSharedPreferences("MY_PREFS", MODE_PRIVATE);
+        params.put("location",sharedPref.getString(getString(R.string.location), "Delhi"));
+        JsonArrayRequest req = new JsonArrayRequest(Request.Method.POST,url, new JSONObject(params),new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 try {

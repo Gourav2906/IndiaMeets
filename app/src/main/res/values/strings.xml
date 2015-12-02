@@ -19,6 +19,7 @@
     <string name="field_required">This field is required</string>
     <string name="title_activity_maps">Map</string>
     <string name="tok"></string>
+    <string name="location"></string>
 
     <string name="lbl_you_are_at">YOU ARE AT</string>
     <string name="btn_get_location">GET MY LOCATION</string>
