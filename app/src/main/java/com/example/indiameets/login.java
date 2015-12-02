@@ -1,7 +1,9 @@
 package com.example.indiameets;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -96,7 +98,7 @@ public class login extends Activity {
         return valid;
     }
     private void authenticate (final user User) {
-        final String url = "http://192.168.42.82:3000/api/login";
+        final String url = "http://192.168.42.218:3000/api/login";
         RequestQueue queue= Volley.newRequestQueue(this);
         HashMap<String,String> params = new HashMap<String, String>();
             params.put("username",User.username);
@@ -114,11 +116,18 @@ public class login extends Activity {
                         //intent(login.this,AddEvent);
                         //startActivity(intent);
                         Log.d("teg", loginToken);
+                        //SharedPreferences sharedPref = login.this.getPreferences("MY_PREFS_NAME",Context.MODE_PRIVATE);
+                       // SharedPreferences.Editor editor = sharedPref.edit();
+                        SharedPreferences.Editor editor = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE).edit();
+                        editor.putString(getString(R.string.tok), loginToken);
+                        editor.commit();
+//                        Log.d("qq", highScore);
+                     //   Log.d("rr",getString(R.string.tok));
                         //  setResult(RESULT_OK,intent);
                        // finish();
                         //Toast.makeText(LoginActivity.this,"Login Successful",Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(login.this, Main2Activity.class);
-                        intent.putExtra("token",loginToken);
+                        intent.putExtra("token", loginToken);
                         startActivity(intent);
 
                         //logUserIN(User);

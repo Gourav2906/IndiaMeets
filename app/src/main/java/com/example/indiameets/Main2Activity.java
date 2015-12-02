@@ -1,6 +1,8 @@
 package com.example.indiameets;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,10 +19,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -28,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Main2Activity extends AppCompatActivity
@@ -66,14 +71,19 @@ public class Main2Activity extends AppCompatActivity
 
         final RVAdapter rvAdapter = new RVAdapter(personList);
         rv.setAdapter(rvAdapter);
+        Intent i=getIntent();
+        String location = i.getStringExtra("location");
 
+        HashMap<String, String> params = new HashMap<String, String>();
         Intent  iq = new Intent(Main2Activity.this, Template.class);
         String name = iq.getStringExtra("token");
         iq.putExtra("token",name);
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = "http://192.168.42.82:3000/api/displayevents";
+       String url = "http://192.168.42.218:3000/api/displayevents";
 //        String url="http://api.football-data.org/alpha/soccerseasons/398/teams";
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+        JsonArrayRequest req = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+      //  params.put("location","Delhi");
+       // JsonArrayRequest req = new JsonArrayRequest(Request.Method.POST,url, new JSONObject(params),new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 try {
@@ -131,7 +141,7 @@ public class Main2Activity extends AppCompatActivity
             }
         });
 
-        requestQueue.add(jsonArrayRequest);
+        requestQueue.add(req);
     }
 
     @Override
@@ -174,12 +184,19 @@ public class Main2Activity extends AppCompatActivity
 
         if (id == R.id.nav_addevent) {
             // Handle the camera action
+            // sharedPref = Main2Activity.this.getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences sharedPref = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+            String highScore = sharedPref.getString(getString(R.string.tok), null);
+//            Log.d("toki",highScore);
             Intent i=getIntent();
-           // tk ta=new tk(i.getStringExtra("token"));
+           // SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+      //      sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        //    int defaultValue = getResources().getInteger(R.string.tok_deflaut);
+            // tk ta=new tk(i.getStringExtra("token"));
           //  Log.d("tk", name);
              // if(i.hasExtra("token"))
                //   Log.d("ff",tk.getValue());
-            if(!i.hasExtra("token"))
+            if(highScore==null)
               {
                   Intent  intent = new Intent(Main2Activity.this, login.class);
                   startActivity(intent);
@@ -191,20 +208,76 @@ public class Main2Activity extends AppCompatActivity
                  Intent  intent = new Intent(Main2Activity.this, AddEvent.class);
                  intent.putExtra("token", name);
                  startActivity(intent);
-
              }
                     }
+        else if (id == R.id.nav_gallery) {
+            SharedPreferences sharedPref = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+            String highScore = sharedPref.getString(getString(R.string.tok), null);
+//            Log.d("toki",highScore);
+            Intent i=getIntent();
+            // SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+            //      sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+            //    int defaultValue = getResources().getInteger(R.string.tok_deflaut);
+            // tk ta=new tk(i.getStringExtra("token"));
+            //  Log.d("tk", name);
+            // if(i.hasExtra("token"))
+            //   Log.d("ff",tk.getValue());
+            if(highScore==null)
+            {
+                Intent  intent = new Intent(Main2Activity.this, login.class);
+                startActivity(intent);
+            }
+            else
+            {
+                Log.d("aa","qw");
+                String name = i.getStringExtra("token");
+                Intent  intent = new Intent(Main2Activity.this, Going.class);
+                intent.putExtra("token", name);
+                startActivity(intent);
+            }
 
-        //else if (id == R.id.nav_addevent) {
+        }
 
-    //    }
+
+        //    }
     else if (id == R.id.nav_slideshow) {
+
+            SharedPreferences sharedPref = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+            String highScore = sharedPref.getString(getString(R.string.tok), null);
+//            Log.d("toki",highScore);
+            Intent i=getIntent();
+            // SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+            //      sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+            //    int defaultValue = getResources().getInteger(R.string.tok_deflaut);
+            // tk ta=new tk(i.getStringExtra("token"));
+            //  Log.d("tk", name);
+            // if(i.hasExtra("token"))
+            //   Log.d("ff",tk.getValue());
+            if(highScore==null)
+            {
+                Intent  intent = new Intent(Main2Activity.this, login.class);
+                startActivity(intent);
+            }
+            else
+            {
+                Log.d("aa","qw");
+                String name = i.getStringExtra("token");
+                Intent  intent = new Intent(Main2Activity.this, MyEvent.class);
+                intent.putExtra("token", name);
+                startActivity(intent);
+            }
 
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_logout) {
+            SharedPreferences sharedPref = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+            SharedPreferences.Editor editor=sharedPref.edit();
+            editor.remove(getString(R.string.tok));
+            editor.commit();
+            Intent  intent = new Intent(Main2Activity.this, MainActivity.class);
+            startActivity(intent);
 
         }
 

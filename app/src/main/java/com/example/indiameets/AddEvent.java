@@ -3,6 +3,7 @@ package com.example.indiameets;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -71,20 +72,23 @@ public class AddEvent extends Activity {
     );
 }
     private void getEvent( Event event) {
-        final String url = "http://192.168.42.82:3000/api/addevent";
+        final String url = "http://192.168.42.218:3000/api/addevent";
         RequestQueue queue= Volley.newRequestQueue(this);
         HashMap<String, String> params = new HashMap<String, String>();
         //String token="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjU2MTNhNGRmNzI0NzQzZTAxZjgwNzRjOSIsIm5hbWUiOiJkZXZhbmciLCJ1c2VybmFtZSI6ImRldmFuZyIsImlhdCI6MTQ0ODk4MDU1OH0.slczbZVOmEyGprPCJhhDhn0qA-I_ceEv8WPG7-IE2r4";
         Intent i=getIntent();
 
-        String token = i.getStringExtra("token");
-        Log.d("ty",token);
+//        String token = i.getStringExtra("token");
+  //      Log.d("ty",token);
+        SharedPreferences sharedPref = getSharedPreferences("MY_PREFS_NAME", MODE_PRIVATE);
+        String highScore = sharedPref.getString(getString(R.string.tok), null);
+        Log.d("zxaa",highScore);
         params.put("name", event.name);
         params.put("description", event.description);
-        params.put("date",event.name);
+        params.put("date",event.date);
         params.put("time", event.time);
         params.put("location", event.location);
-        params.put("token",token);
+        params.put("token",highScore);
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

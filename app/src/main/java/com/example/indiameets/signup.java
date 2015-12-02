@@ -56,7 +56,7 @@ public class signup extends Activity implements View.OnClickListener {
     }
     private void registerUser(user User){
         RequestQueue queue= Volley.newRequestQueue(this);
-        final String url = "http://192.168.42.195:3000/api/signup";
+        final String url = "http://192.168.42.218:3000/api/signup";
         HashMap<String,String> params = new HashMap<String, String>();
         params.put("username",User.username);
         params.put("password", User.password);

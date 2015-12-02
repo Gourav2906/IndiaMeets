@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, login.class);
                 startActivity(intent);
 
-
             }
         });
      button2.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View a) {
                 // TODO Auto-generated method stub
-                Intent intent2 = new Intent(MainActivity.this, Main2Activity.class);
+                Intent intent2 = new Intent(MainActivity.this, MapsActivity.class);
                 startActivity(intent2);
             }
         });
